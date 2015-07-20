@@ -15,6 +15,7 @@ public class StartButton : MonoBehaviour, IPointerClickHandler {
 	}
 
 	public void OnPointerClick(PointerEventData d){
+		Handheld.Vibrate ();
 		Application.LoadLevel ("MainGame");
 	}
 }
