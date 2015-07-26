@@ -15,6 +15,7 @@ public class TouchController : MonoBehaviour {
 	private Renderer rend;
 
 	void Start (){
+		Input.simulateMouseWithTouches = true;
 		rend = GetComponent<Renderer>();
 	}
 
