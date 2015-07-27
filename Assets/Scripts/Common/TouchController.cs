@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class TouchController : MonoBehaviour {
+
+	public float perspectiveZoomSpeed = 0.1f;        // The rate of change of the field of view in perspective mode.
 	
 	private float rotationSpeed = 10.0F;
 	private float lerpSpeed = 1.0F;
@@ -61,8 +63,32 @@ public class TouchController : MonoBehaviour {
 	}
 	
 	void Update() {
-		//Rotation Detect
 		transform.position = new Vector3 (transform.position.x, transform.position.y, -2);
+		//pinch zoom start
+		if (Input.touchCount == 2 && isDragging)
+		{
+			// Store both touches.
+			Touch touchZero = Input.GetTouch(0);
+			Touch touchOne = Input.GetTouch(1);
+			
+			// Find the position in the previous frame of each touch.
+			Vector2 touchZeroPrevPos = touchZero.position - touchZero.deltaPosition;
+			Vector2 touchOnePrevPos = touchOne.position - touchOne.deltaPosition;
+			
+			// Find the magnitude of the vector (the distance) between the touches in each frame.
+			float prevTouchDeltaMag = (touchZeroPrevPos - touchOnePrevPos).magnitude;
+			float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
+			
+			// Find the difference in the distances between each frame.
+			float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+
+			// Otherwise change the field of view based on the change in distance between the touches.
+			transform.localScale += new Vector3(deltaMagnitudeDiff * perspectiveZoomSpeed, deltaMagnitudeDiff * perspectiveZoomSpeed, deltaMagnitudeDiff * perspectiveZoomSpeed);
+				
+			// Clamp the field of view to make sure it's between 0 and 180.
+			//transform.localScale.magnitude = Mathf.Clamp(transform.localScale.magnitude, 0.1f, 179.9f);
+		}
+		//pinch zoom end
 		if (Input.GetMouseButton(0) && isDragging) {
 			Debug.Log (Time.time + " : Rotating " + name + ", " + Input.mousePosition.x + ":" + Input.mousePosition.y);
 			theSpeed = new Vector3(-Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0.0F);
