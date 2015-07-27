@@ -8,6 +8,7 @@ public class pauseButton : MonoBehaviour, IPointerClickHandler
 	private float timeScale;
 
 	void Start(){
+		Time.timeScale = 1f;
 		timeScale = Time.timeScale;
 	}
 

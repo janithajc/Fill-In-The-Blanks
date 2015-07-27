@@ -27,19 +27,20 @@ public class TouchController : MonoBehaviour {
 	}
 
 	void OnMouseDown() {
+		Debug.Log (Time.time + " : Touched " + name + ", " + Input.mousePosition.x + ":" + Input.mousePosition.y);
 		isDragging = true;
 		isGonnaDrag = true;
 		touchTime = Time.time;
 		//screenPoint = Camera.main.WorldToScreenPoint(gameObject.transform.position); // I removed this line to prevent centring 
 		initialPosition = transform.position;
 		offset = gameObject.transform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
-		Debug.Log ("Touched "+name);
 		if(rbody != null)
 			rbody.velocity = Vector3.zero;
 	}
 
 	void OnMouseDrag() { 
 		if (isGonnaDrag && Time.time > touchTime + 1F) {
+			Debug.Log (Time.time + " : Dragging " + name + ", " + Input.mousePosition.x + ":" + Input.mousePosition.y);
 			rend.material.SetColor("_Color", gold);
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint) + offset;
@@ -63,6 +64,7 @@ public class TouchController : MonoBehaviour {
 		//Rotation Detect
 		transform.position = new Vector3 (transform.position.x, transform.position.y, -2);
 		if (Input.GetMouseButton(0) && isDragging) {
+			Debug.Log (Time.time + " : Rotating " + name + ", " + Input.mousePosition.x + ":" + Input.mousePosition.y);
 			theSpeed = new Vector3(-Input.GetAxis("Mouse X"), Input.GetAxis("Mouse Y"), 0.0F);
 			//Debug.Log(-Input.GetAxis("Mouse X") + " : " + Input.GetAxis("Mouse Y"));
 			avgSpeed = Vector3.Lerp(avgSpeed, theSpeed, Time.deltaTime * 5);
