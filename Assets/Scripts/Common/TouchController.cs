@@ -80,7 +80,7 @@ public class TouchController : MonoBehaviour {
 			float touchDeltaMag = (touchZero.position - touchOne.position).magnitude;
 			
 			// Find the difference in the distances between each frame.
-			float deltaMagnitudeDiff = prevTouchDeltaMag - touchDeltaMag;
+			float deltaMagnitudeDiff = touchDeltaMag - prevTouchDeltaMag;
 
 			// Otherwise change the field of view based on the change in distance between the touches.
 			transform.localScale += new Vector3(deltaMagnitudeDiff * perspectiveZoomSpeed, deltaMagnitudeDiff * perspectiveZoomSpeed, deltaMagnitudeDiff * perspectiveZoomSpeed);
